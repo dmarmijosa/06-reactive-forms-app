@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormUtils } from '../../../utils/form-utils';
 
 @Component({
   selector: 'app-basic-page',
@@ -21,6 +22,7 @@ export class BasicPageComponent {
   // });
 
   private fb = inject(FormBuilder);
+  formUtils = FormUtils
 
   myForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -28,29 +30,29 @@ export class BasicPageComponent {
     inStorage: [0, [Validators.required, Validators.min(0)]],
   });
 
-  isValidField(fileName: string): boolean | null {
-    return (
-      this.myForm.controls[fileName].errors &&
-      this.myForm.controls[fileName].touched
-    );
-  }
-  getFileName(fileName: string): string | null {
-    if (!this.myForm.controls[fileName]) return null;
-    const error = this.myForm.controls[fileName].errors ?? {};
-    for (const key of Object.keys(error)) {
-      switch (key) {
-        case 'required':
-          return 'Este campo requerido';
-        case 'minlength':
-          return `El campo debe tener al menos ${error[key].requiredLength} caracteres`;
-        case 'min':
-          return `El campo debe ser mayor a ${error[key].min}`;
-        default:
-          return 'Campo inválido';
-      }
-    }
-    return null;
-  }
+  // isValidField(fileName: string): boolean | null {
+  //   return (
+  //     this.myForm.controls[fileName].errors &&
+  //     this.myForm.controls[fileName].touched
+  //   );
+  // }
+  // getFileName(fileName: string): string | null {
+  //   if (!this.myForm.controls[fileName]) return null;
+  //   const error = this.myForm.controls[fileName].errors ?? {};
+  //   for (const key of Object.keys(error)) {
+  //     switch (key) {
+  //       case 'required':
+  //         return 'Este campo requerido';
+  //       case 'minlength':
+  //         return `El campo debe tener al menos ${error[key].requiredLength} caracteres`;
+  //       case 'min':
+  //         return `El campo debe ser mayor a ${error[key].min}`;
+  //       default:
+  //         return 'Campo inválido';
+  //     }
+  //   }
+  //   return null;
+  // }
 
   onSave() {
     if(this.myForm.invalid) {

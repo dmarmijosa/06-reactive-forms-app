@@ -14,10 +14,10 @@
             placeholder="Nombre del producto"
             formControlName="name"
           />
-          @if(isValidField('name')) {
+          @if(formUtils.isValidField(myForm,'name')) {
           <span class="form-text text-danger">
             <!-- Debe de ser de 3 letras -->
-            {{ getFileName("name") }}
+            {{ formUtils.getFileName(myForm,"name") }}
           </span>
           }
         </div>
@@ -33,10 +33,10 @@
             placeholder="Precio del producto"
             formControlName="price"
           />
-          @if(isValidField('price')) {
+          @if(formUtils.isValidField(myForm,'price')) {
           <span class="form-text text-danger">
             <!-- Debe de ser de 3 letras -->
-            {{ getFileName("price") }}
+            {{ formUtils.getFileName(myForm,"price") }}
           </span>
           }
         </div>
@@ -53,10 +53,10 @@
             formControlName="inStorage"
           />
 
-          @if(isValidField('inStorage')) {
+          @if(formUtils.isValidField(myForm,'inStorage')) {
           <span class="form-text text-danger">
             <!-- Debe de ser de 3 letras -->
-            {{ getFileName("inStorage") }}
+            {{ formUtils.getFileName(myForm,"inStorage") }}
           </span>
           }
         </div>

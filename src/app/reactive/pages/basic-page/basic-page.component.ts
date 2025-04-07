@@ -29,12 +29,15 @@ export class BasicPageComponent {
   });
 
   isValidField(fileName: string): boolean | null {
-    return !!this.myForm.controls[fileName].errors;
+    return (
+      this.myForm.controls[fileName].errors &&
+      this.myForm.controls[fileName].touched
+    );
   }
   getFileName(fileName: string): string | null {
-    if(!this.myForm.controls[fileName]) return null;
-    const error = this.myForm.controls[fileName].errors ?? {}
-    for(const key of Object.keys(error)){
+    if (!this.myForm.controls[fileName]) return null;
+    const error = this.myForm.controls[fileName].errors ?? {};
+    for (const key of Object.keys(error)) {
       switch (key) {
         case 'required':
           return 'Este campo requerido';
@@ -47,5 +50,19 @@ export class BasicPageComponent {
       }
     }
     return null;
+  }
+
+  onSave() {
+    if(this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
+      return;
+    }
+
+    console.log(this.myForm.value);
+    this.myForm.reset({
+      name: 'Danny',
+      price: 100,
+      inStorage: 50
+    });
   }
 }

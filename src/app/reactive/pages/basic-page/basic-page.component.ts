@@ -1,6 +1,11 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-basic-page',
@@ -15,11 +20,32 @@ export class BasicPageComponent {
   //   inStorage: new FormControl(0),
   // });
 
-  private fb =  inject(FormBuilder);
+  private fb = inject(FormBuilder);
 
-  myForm = this.fb.group({
-    name: ['',[] ],
-    price: [0],
-    inStorage: [0],
-  })
+  myForm: FormGroup = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    price: [0, [Validators.required, Validators.min(10)]],
+    inStorage: [0, [Validators.required, Validators.min(0)]],
+  });
+
+  isValidField(fileName: string): boolean | null {
+    return !!this.myForm.controls[fileName].errors;
+  }
+  getFileName(fileName: string): string | null {
+    if(!this.myForm.controls[fileName]) return null;
+    const error = this.myForm.controls[fileName].errors ?? {}
+    for(const key of Object.keys(error)){
+      switch (key) {
+        case 'required':
+          return 'Este campo requerido';
+        case 'minlength':
+          return `El campo debe tener al menos ${error[key].requiredLength} caracteres`;
+        case 'min':
+          return `El campo debe ser mayor a ${error[key].min}`;
+        default:
+          return 'Campo inválido';
+      }
+    }
+    return null;
+  }
 }

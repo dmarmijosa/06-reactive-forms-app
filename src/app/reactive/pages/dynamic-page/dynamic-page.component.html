@@ -29,6 +29,7 @@
           placeholder="Agregar favorito"
           [formControl]="newFavoriteGame"
           (keydown.enter)="onAddFavorites()"
+          (keydown.enter)="$event.preventDefault()"
         />
 
         <button

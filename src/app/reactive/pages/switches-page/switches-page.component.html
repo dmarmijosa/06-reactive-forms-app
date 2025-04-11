@@ -64,7 +64,7 @@
           formControlName="termsAndConditions"
           id="flexCheckDefault"
         />
-        <label class="form-check-label" for="flexCheckDefault">
+        <label class="form-check-label" [class.text-danger]="formUtils.getFiledErrorName(myForm,'termsAndConditions')" for="flexCheckDefault">
           Términos y condiciones de uso
         </label>
       </div>

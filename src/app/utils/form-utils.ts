@@ -61,6 +61,8 @@ export class FormUtils {
           return 'El formato del campo es inválido';
         case 'emailTaken':
           return `El correo ya existe`;
+        case 'noStrider':
+          return 'El username no puede ser strider'
         default:
           return 'Campo inválido';
       }
@@ -91,5 +93,11 @@ export class FormUtils {
     }
 
     return null;
+  }
+
+  static notStrider(control: AbstractControl): ValidationErrors | null {
+    return (control.value as string).trim().toLowerCase() === 'strider'
+      ? { noStrider: true }
+      : null;
   }
 }

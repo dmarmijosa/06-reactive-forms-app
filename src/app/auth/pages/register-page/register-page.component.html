@@ -35,7 +35,7 @@
           />
           @if(formUtil.isValidField(myForm, 'email')){
           <span class="form-text text-danger">
-            Debe ser un correo valido
+            {{formUtil.getFiledErrorName(myForm,'email')}}
           </span>
           }
         </div>

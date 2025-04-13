@@ -1,4 +1,17 @@
-import { AbstractControl, FormArray, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormGroup,
+  ValidationErrors,
+} from '@angular/forms';
+
+async function sleep() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 2500);
+  });
+}
 
 export class FormUtils {
   static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
@@ -46,13 +59,14 @@ export class FormUtils {
             return patternMessages[requiredPattern];
           }
           return 'El formato del campo es inválido';
+        case 'emailTaken':
+          return `El correo ya existe`;
         default:
           return 'Campo inválido';
       }
     }
     return null;
   }
-
 
   ///Validaiones personalizadas
   static isFieldOneEqualFielTwo(field1: string, field2: string) {
@@ -61,5 +75,21 @@ export class FormUtils {
       const field2Value = formGroup.get(field2)?.value;
       return field1Value === field2Value ? null : { passwordNotEqual: true };
     };
+  }
+
+  static async chekingServerResponse(
+    control: AbstractControl
+  ): Promise<ValidationErrors | null> {
+    console.log('Validando contra servidor');
+    await sleep();
+    const formValue = control.value;
+
+    if (formValue === 'hola@mundo.com') {
+      return {
+        emailTaken: true,
+      };
+    }
+
+    return null;
   }
 }

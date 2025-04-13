@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -16,26 +17,33 @@ export class RegisterPageComponent {
   private fb = inject(FormBuilder);
   formUtil = FormUtils;
 
-  myForm: FormGroup = this.fb.group({
-    name: [
-      '',
-      [Validators.required, Validators.pattern(this.formUtil.namePattern)],
-    ],
-    email: [
-      '',
-      [Validators.required, Validators.pattern(this.formUtil.emailPattern)],
-    ],
-    username: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.pattern(this.formUtil.notOnlySpacesPattern),
+  myForm: FormGroup = this.fb.group(
+    {
+      name: [
+        '',
+        [Validators.required, Validators.pattern(this.formUtil.namePattern)],
       ],
-    ],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    password2: ['', Validators.required],
-  });
+      email: [
+        '',
+        [Validators.required, Validators.pattern(this.formUtil.emailPattern)],
+      ],
+      username: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(this.formUtil.notOnlySpacesPattern),
+        ],
+      ],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      password2: ['', Validators.required],
+    },
+    {
+      validators: [this.formUtil.isFieldOneEqualFielTwo('password', 'password2')],
+    }
+  );
+
+
 
   onSubmit() {
     this.myForm.markAllAsTouched();
